@@ -1,34 +1,38 @@
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   
-       http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-		<welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>
 	<context-param>
 		<param-name>webAppRootKey</param-name>
 		<param-value>webapp.root.one</param-value>
 	</context-param>
 
-
+	<!-- We will be using jersey's servlet container here as our only servlet -->
 	<servlet>
+		<!-- Any name you want to give for this Servlet container -->
 		<servlet-name>JerseyRESTServlet</servlet-name>
-		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+		<!-- Fully qualified path of the ServletContainer class of jersey -->
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
 		<init-param>
-			<param-name>com.sun.jersey.config.property.packages</param-name>
+			<!-- Jersey's package provider -->
+			<param-name>jersey.config.server.provider.packages</param-name>
+			<!-- The root package of your project which contains other packages and 
+				classes in it, this is required as it will start scanning for rest resources 
+				from this package only and won't look in any parent package of the below 
+				given package -->
 			<param-value>com.ankitmaurya.restapi.mvn.jersey</param-value>
 		</init-param>
-		<init-param>
-			<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
-			<param-value>true</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
 	</servlet>
 
+	<!-- To let client access our servlet we will map our servlet to some url 
+		as given below -->
 	<servlet-mapping>
+		<!-- Name of the servlet you provided above for Servlet Container -->
 		<servlet-name>JerseyRESTServlet</servlet-name>
-		<url-pattern>/rest/*</url-pattern>
+		<!-- The path or url to reach this container, this will be the root url 
+			and * sign shows that any url for this container(website or subwebsite) will 
+			start after "ankit/" only we can make it just "/*" for simplicity -->
+		<url-pattern>/ankit/*</url-pattern>
 	</servlet-mapping>
-
 </web-app>
